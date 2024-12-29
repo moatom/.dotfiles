@@ -1,11 +1,12 @@
-# If there are multiple matches for completion, Tab should cycle through them
-bind 'TAB:menu-complete'
-# And Shift-Tab should cycle backwards
-bind '"\e[Z": menu-complete-backward'
+set menu-complete-display-prefix on
+set colored-completion-prefix on
+set colored-stats on
 
-bind "set menu-complete-display-prefix on"
-bind "set colored-completion-prefix on"
-bind "set colored-stats on"
+"\e[A": history-search-backward # ↑
+"\e[B": history-search-forward # ↓
+set completion-ignore-case on
+set history-preserve-point
 
-# Display a list of the matching files
-bind "set show-all-if-ambiguous on"
+TAB: menu-complete
+set show-all-if-ambiguous on
+"\e[Z": menu-complete-backward # Shift-Tab

@@ -7,8 +7,7 @@
 
 ### TODO
 
-- bashrcのmk-script2
-- inoutrcの統合
+- bashrcのmk-script2を汎用化
 - zshrc
 - ~/.sc/
   - compose-
@@ -30,7 +29,6 @@ set show-all-if-ambiguous on
 ```
 
 ### Idea
-search
 catでエスケープ不要で、$fooが置換されるのを防ぐ方法
 
 ## Develop
@@ -40,8 +38,8 @@ catでエスケープ不要で、$fooが置換されるのを防ぐ方法
 ```bash
 git clone <this rep>
 # shell
-echo 'source "\$HOME/.dotfiles/.bashrc"' >> ~/.bashrc
-echo '\$include ~/.dotfiles/.inputrc' >> ~/.inputrc
+echo 'source "$HOME/.dotfiles/.bashrc"' >> ~/.bashrc
+echo '$include ~/.dotfiles/.inputrc' >> ~/.inputrc
 
 # opsの奴を追加
 cp ~/.config/alacritty
@@ -67,13 +65,7 @@ cp ~/.config/Code
 
 ```bash
 cat ~/.inputrc
-touch ./.inputrc
+touch ~/.dotfiles/.inputrc
 # 中身
-```
-
-```bash
-# cat ~/.bashrc
-echo 'source "\$HOME/.dotfiles/.bashrc"' >> ~/.bashrc
-# cat ~/.inputrc
-echo '\$include ~/.dotfiles/.inputrc' >> ~/.inputrc
+echo '$include ~/.dotfiles/.inputrc' >> ~/.inputrc
 ```

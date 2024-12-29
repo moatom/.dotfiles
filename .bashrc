@@ -19,6 +19,19 @@ alias cd-g="cd $DIRG"
 alias cd-2='mkdir -p $1 && cd $1'
 
 alias cat-me="cat ./README*"
+cat-me-git() {
+  cat $(git rev-parse --show-toplevel)/TODO*
+}
+cat-todo-git() {
+  cat $(git rev-parse --show-toplevel)/README*
+}
+
+fix-me-git() {
+  open $(git rev-parse --show-toplevel)/TODO*
+}
+fix-todo-git() {
+  open $(git rev-parse --show-toplevel)/README*
+}
 
 # command ez
 docker-ez() {
@@ -43,7 +56,7 @@ alias ops-vscode="gnome-text-editor ~/.config/Code/User/settings.json"
 alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 alias ops-zellij="open ~/.config/zellij/config.kdl"
 
-alias opc="find ~/github -maxdepth 1 -type d | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
 
 open() {
 	i=0
