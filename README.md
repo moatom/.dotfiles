@@ -62,10 +62,30 @@ cp ~/.config/Code
 
 ### Add files
 
-
 ```bash
 cat ~/.inputrc
 touch ~/.dotfiles/.inputrc
 # 中身
 echo '$include ~/.dotfiles/.inputrc' >> ~/.inputrc
 ```
+
+
+# Misc
+
+```
+SHELL_SETTINGS="$HOME/.dotfiles/.zshrc"
+[ -f $SHELL_SETTINGS ] && source $SHELL_SETTINGS
+
+# echo '[ -f ~/.config/.sh ] && source ~/.config/.sh' >> ~/.zshrc
+# See: https://wiki.archlinux.jp/index.php/Zsh#.E3.82.AD.E3.83.BC.E3.83.90.E3.82.A4.E3.83.B3.E3.83.89
+
+
+cp .sh ~/.config/.sh
+cp .zshrc ~/.zshrc
+
+ln .sh ~/.config/.sh
+ln -s .zshrc ~/.zshrc
+```
+
+- macOSで隠れファイル表示：`Cmd+Shift+.`
+- direnvか何かのせいで、$SHELLが/bin/shになる。。。
