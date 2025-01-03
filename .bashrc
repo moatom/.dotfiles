@@ -1,12 +1,13 @@
+export DIRG="$HOME/github"
+export DIRSH="$HOME/.sc"
+
 # Editor used by CLI
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
 
-export PATH="~/.sc:$PATH"
+export PATH="$DIRSH:$PATH"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 #export PATH="~/vnev/system/bin:$PATH"
-
-export DIRG="$HOME/github"
 
 alias sudo="sudo "
 
@@ -17,6 +18,7 @@ activate() {
 # shortcut
 alias cd-g="cd $DIRG"
 alias cd-2='mkdir -p $1 && cd $1'
+alias cd-c='cd "$(find ~/github -maxdepth 1 -type d | fzf)"'
 
 alias cat-me="cat ./README*"
 cat-me-git() {
@@ -98,6 +100,7 @@ alias gca='git commit --amend'
 alias gf='git fetch'
 alias gpl='git pull'
 alias gplr='git pull --rebase'
+alias gplo='git pull origin'
 alias gp='git push'
 alias gpo='git push origin'
 
@@ -113,6 +116,16 @@ alias gsp="git stash push -m'Save: automatic save'"
 alias gspp='git stash pop stash@{0}'
 
 # mk-
+mk-template() {
+  [ -n "$1" ] && zed $HOME/Templates/$1
+}
+
+mk-from-template() {
+  [ $# -eq 1 ] && ext="${1##*.}" && template="$HOME"/Templates/*."$ext" && \
+  [ -e $template ] && cp $template "$1" && echo "Created $1 from template" $template \
+  || echo "Usage: mk-from-template <filename>; $(ls ~/Templates)"
+}
+
 mk-rep() {
 	gh repo create
 	cp ~/Templtes/README.md ~/Templates/docker-compose.yml .
