@@ -1,24 +1,61 @@
+SHELL_SETTINGS=".bashrc"
+SHELL_SETTINGS_MAIN="$HOME/.dotfiles/$SHELL_SETTINGS"
+SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
 export DIRG="$HOME/github"
-export DIRSH="$HOME/.sc"
+export DIRSC="$HOME/.sc"
 
 # Editor used by CLI
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
 
-export PATH="$DIRSH:$PATH"
+export PATH="$DIRSC:$PATH"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 #export PATH="~/vnev/system/bin:$PATH"
 
 alias sudo="sudo "
 
+# alias
 activate() {
 	source .venv/bin/activate
 }
 
-# shortcut
-alias cd-g="cd $DIRG"
-alias cd-2='mkdir -p $1 && cd $1'
-alias cd-c='cd "$(find ~/github -maxdepth 1 -type d | fzf)"'
+alias relogin='exec $SHELL -l'
+alias n='nvim '
+alias e='emacs '
+alias ls='ls --color=auto'
+alias ll='ls --color=auto -l'
+alias la='ls --color=auto -la'
+
+alias gs='git status'
+alias ga='git add'
+alias gcm='git commit'
+alias gca='git commit --amend'
+alias gco='git checkout'
+
+alias gp='git push'
+alias gpo='git push origin'
+alias gpl='git pull'
+alias gplr='git pull --rebase'
+alias gplo='git pull origin'
+alias gf='git fetch'
+alias gfp='git fetch --prune'
+
+alias gcl='git clone'
+alias gb='git branch'
+alias gbr='git branch -r'
+alias gd='git diff'
+alias grb='git rebase'
+alias gr='git remote'
+alias grs='git remote show'
+
+alias gl='git log --oneline --graph --decorate'
+alias glo='git log --pretty="oneline"'
+alias gtd='git tag --delete'
+alias gtdr='git tag --delete origin'
+alias gclean='git clean -fd'
+
+alias gsp="git stash push -m'Save: automatic save'"
+alias gspp='git stash pop stash@{0}'
 
 alias cat-me="cat ./README*"
 cat-me-git() {
@@ -27,7 +64,6 @@ cat-me-git() {
 cat-todo-git() {
   cat $(git rev-parse --show-toplevel)/README*
 }
-
 fix-me-git() {
   open $(git rev-parse --show-toplevel)/TODO*
 }
@@ -35,31 +71,28 @@ fix-todo-git() {
   open $(git rev-parse --show-toplevel)/README*
 }
 
-# command ez
-docker-ez() {
-    [ -z "$1" ] && echo "Error: No image name provided" && return 1
-    docker build -t $1 .
-    docker run --rm $1
-}
-podman-ez() {
-    podman build -t $1 .
-    podman run --rm $1
-}
+alias cd-g="cd $DIRG"
+alias cd-2='mkdir -p $1 && cd $1'
+alias cd-c='cd "$(find ~/github -maxdepth 1 -type d | fzf)"'
 
-# open settings/path/
-#alias open="xdg-open"
-alias ops-sh="open ~/.bashrc"
-alias ops-sh2="open ~/.dotfiles/.bashrc"
+# Settings
 alias ops-sc="open ~/.sc/"
+alias ops-sh="open SHELL_SETTINGS_BASE"
+alias ops-sh2="open SHELL_SETTINGS_MAIN"
 alias ops-alacritty="open ~/.config/alacritty/font.toml ~/.config/alacritty/theme.toml ~/.config/alacritty/alacritty.toml"
+alias ops-zellij="open ~/.config/zellij/config.kdl"
 alias ops-xremap="open ~/.config/xremap/config.yml"
 alias ops-fusuma="open ~/.config/fusuma/config.yml"
 alias ops-vscode="gnome-text-editor ~/.config/Code/User/settings.json"
 alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
-alias ops-zellij="open ~/.config/zellij/config.kdl"
+# alias ops-tmux="open ~/.tmux.conf"
+# alias ops-tex="open ~/.latexmkrc"
+# alias ops-emacs="open ~/.emacs.d/init.el"
+# alias ops-nvim="open ~/.config/nvim/init.vim"
 
 alias opc="(cat <(echo $HOME/.dotfiles) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
 
+#alias open="xdg-open"
 open() {
 	i=0
 	for x in $@; do
@@ -74,48 +107,48 @@ open() {
 }
 
 # reload settings
-alias re-xremap="sudo systemctl restart xremap"
 re-sh() {
 	exec $SHELL
 }
+alias re-xremap="sudo systemctl restart xremap"
 re-fusuma() {
 	kill $(ps aux | grep 'fusuma -d' | grep -v 'grep' | awk '{print $2}') && \\
 	fusuma -d
 }
 
 # misc
-alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0kubun.Xremap WMClasses"
+# command ez
+docker-ez() {
+    [ -z "$1" ] && echo "Error: No image name provided" && return 1
+    docker build -t $1 .
+    docker run --rm $1
+}
+podman-ez() {
+    podman build -t $1 .
+    podman run --rm $1
+}
 
 # clip: only linux (bash)!
 alias pbcopy='xsel --clipboard --input'
-alias mk-clip="xsel --clipboard --output > "
 
-# Git alias
-alias gco='git checkout'
-alias gst='git status'
+# util
+alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0kubun.Xremap WMClasses"
 
-alias gcm='git commit'
-alias gca='git commit --amend'
+# lg: lazygitでの移動を反映
+lg() {
+  export LAZYGIT_NEW_DIR_FILE=$HOME/.lazygit/newdir
 
-alias gf='git fetch'
-alias gpl='git pull'
-alias gplr='git pull --rebase'
-alias gplo='git pull origin'
-alias gp='git push'
-alias gpo='git push origin'
+  lazygit "$@"
 
-alias gbr='git branch'
-alias gcl='git clone'
-alias gd='git diff'
-alias gl='git log --oneline --graph --decorate'
-alias grb='git rebase'
-
-alias gclean='git clean -fd'
-
-alias gsp="git stash push -m'Save: automatic save'"
-alias gspp='git stash pop stash@{0}'
+  if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+    cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+    rm -f $LAZYGIT_NEW_DIR_FILE >/dev/null
+  fi
+}
 
 # mk-
+alias mk-clip="xsel --clipboard --output > "
+
 mk-template() {
   [ -n "$1" ] && zed $HOME/Templates/$1
 }
@@ -131,11 +164,73 @@ mk-rep() {
 	cp ~/Templtes/README.md ~/Templates/docker-compose.yml .
 }
 
+mk-me() {
+  n REDAME.md
+}
+
+mk-todo() {
+  n TODO.md
+}
+
+mk-note() {
+  n .note.md
+}
+
 mk-makefile() {
-	cat <<END >>Makefile
+	cat <<'END' >>Makefile
 .PHONY: all
 all:
   pass
+END
+}
+
+mk-dockercompose() {
+    cat <<'END' >>docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: exampledb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    image: your-app-image:latest
+    container_name: app-container
+    build:
+      context: ./app
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/exampledb
+    depends_on:
+      - db
+    networks:
+      - app-network
+    ports:
+      - "5000:5000"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
 END
 }
 
@@ -206,6 +301,71 @@ SHELLSCRIPT
     code "$1"
 }
 
+# collect reps, mk sc to unifying dirs
+mk-script-there() {
+	cat <<'DONE' >"$DIRSC/$1"
+#!/bin/bash
+## Usage: ${1}
+
+usage()
+{
+    echo "usage: ${1} [[-o1] [-o2] [-h]]"
+}
+
+while (( "$#" )); do
+    case "$1" in
+        -o1 | --o1)         o1=1
+                            shift
+                            ;;
+        -o2  | --o2)        o2=1
+                            shift
+                            ;;
+        -a   | --all)       o1=1
+                            o2=1
+                            shift
+                            ;;
+        -h   | --help)      usage
+                            exit 1
+                            ;;
+        *)                  usage
+                            exit 1
+    esac
+done
+
+ROOT=$(pwd)
+WORKDIR=${ROOT}/repos
+SUBREP="git@bitbucket.org:foo.git"
+OUTPUT=${ROOT}/output
+
+if [ ! -d "${WORKDIR}" ]
+then
+    echo "# Cloning repos locally ... "
+
+    mkdir $WORKDIR
+    git clone ${SUBREP} "${WORKDIR}/foo"
+else
+    echo "# Updating repos locally ... "
+
+    git clean -Xdf "${WORKDIR}/foo"; cd "${WORKDIR}/foo"; git pull; cd ..
+fi
+
+if [ ! -z "${o1}" ]; then
+    echo "# Work on foo1"
+    git checkout master
+fi
+
+if [ ! -z "${o2}" ]; then
+    echo "# Work on foo2"
+    git checkout master
+fi
+
+cd $ROOT
+
+}
+DONE
+	chmod +x "$DIRSH/$1"
+	code "$DIRSH/$1"
+}
 
 # interpret/playground/play
 rust() {

@@ -1,53 +1,101 @@
-SHELL_SETTINGS_F=".zshrc"
-SHELL_SETTINGS="$HOME/.dotfiles/.zshrc"
+SHELL_SETTINGS=".zshrc"
+SHELL_SETTINGS_MAIN="$HOME/.dotfiles/$SHELL_SETTINGS"
+SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
+export DIRSC="$HOME/.scripts"
 
-export PATH="$HOME/.scripts:$PATH"
+export PATH="$DIRSC:$PATH"
 fpath=(~/.zsh/completion $fpath)
 
 # Aliases
-alias relogin='exec $SHELL -l'
+activate() {
+	source .venv/bin/activate
+}
 
+alias relogin='exec $SHELL -l'
 alias n='nvim '
 alias e='emacs '
-alias cat-me='cat README.md'
-
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
 
 alias gs='git status'
 alias ga='git add'
+alias gcm='git commit'
+alias gca='git commit --amend'
+alias gco='git checkout'
+
 alias gp='git push'
 alias gpo='git push origin'
-alias gtd='git tag --delete'
-alias gtdr='git tag --delete origin'
-alias gr='git branch -r'
+alias gpl='git pull'
+alias gplr='git pull --rebase'
 alias gplo='git pull origin'
-alias gb='git branch '
-alias gc='git commit'
+alias gf='git fetch'
+alias gfp='git fetch --prune'
+
+alias gcl='git clone'
+alias gb='git branch'
+alias gbr='git branch -r'
 alias gd='git diff'
-alias gco='git checkout'
-alias gl='git log'
+alias grb='git rebase'
 alias gr='git remote'
 alias grs='git remote show'
-alias glo='git log --pretty="oneline"'
-alias glol='git log --graph --oneline --decorate'
 
-re_shell() {
+alias gl='git log --oneline --graph --decorate'
+alias glo='git log --pretty="oneline"'
+alias gtd='git tag --delete'
+alias gtdr='git tag --delete origin'
+alias gclean='git clean -fd'
+
+alias gsp="git stash push -m'Save: automatic save'"
+alias gspp='git stash pop stash@{0}'
+
+alias cat-me="cat ./README*"
+cat-me-git() {
+  cat $(git rev-parse --show-toplevel)/TODO*
+}
+cat-todo-git() {
+  cat $(git rev-parse --show-toplevel)/README*
+}
+fix-me-git() {
+  open $(git rev-parse --show-toplevel)/TODO*
+}
+fix-todo-git() {
+  open $(git rev-parse --show-toplevel)/README*
+}
+
+# Settings
+ops-shell() {
+  open $SHELL_SETTINGS_BASE
+}
+ops-shell2() {
+  open $SHELL_SETTINGS_MAIN
+}
+alias ops-sh="open $SHELL_SETTINGS_BASE"
+alias ops-sh2="open $SHELL_SETTINGS_MAIN"
+# alias ops-vscode="gnome-text-editor ~/.config/Code/User/settings.json"
+# alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
+# alias ops-tmux="open ~/.tmux.conf"
+# alias ops-tex="open ~/.latexmkrc"
+# alias ops-emacs="open ~/.emacs.d/init.el"
+# alias ops-nvim="open ~/.config/nvim/init.vim"
+
+alias opc="(cat <(echo $HOME/.dotfiles) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs code"
+
+
+re-shell() {
   exec $SHELL -l
 }
-ops_shell() {
-  open $HOME/$SHELL_SETTINGS_F
-}
-ops_shell2() {
-  open $SHELL_SETTINGS
+
+# Misc
+# command ez
+docker-ez() {
+    [ -z "$1" ] && echo "Error: No image name provided" && return 1
+    docker build -t $1 .
+    docker run --rm $1
 }
 
-mk-rep() {
-  gh repo create $1 --public --source=. --remote=github
-  cp ~/Templtes/README.md .
-}
-
+# util
+# lg: lazygitでの移動を反映
 lg() {
   export LAZYGIT_NEW_DIR_FILE=$HOME/.lazygit/newdir
 
@@ -59,11 +107,96 @@ lg() {
   fi
 }
 
+# mk-
 output() {
   cd $HOME/program/github/profile/qiita_posts
   n note.md
 }
 
+mk-template() {
+  [ -n "$1" ] && zed $HOME/Templates/$1
+}
+
+mk-from-template() {
+  [ $# -eq 1 ] && ext="${1##*.}" && template="$HOME"/Templates/*."$ext" && \
+  [ -e $template ] && cp $template "$1" && echo "Created $1 from template" $template \
+  || echo "Usage: mk-from-template <filename>; $(ls ~/Templates)"
+}
+
+mk-rep() {
+	gh repo create
+	cp ~/Templtes/README.md ~/Templates/docker-compose.yml .
+}
+
+mk-me() {
+  n REDAME.md
+}
+
+mk-todo() {
+  n TODO.md
+}
+
+mk-note() {
+  n .note.md
+}
+
+mk-makefile() {
+	cat <<'END' >>Makefile
+.PHONY: all
+all:
+  pass
+END
+}
+
+mk-dockercompose() {
+    cat <<'END' >>docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: exampledb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    image: your-app-image:latest
+    container_name: app-container
+    build:
+      context: ./app
+    environment:
+      - DATABASE_URL=postgres://user:password@db:5432/exampledb
+    depends_on:
+      - db
+    networks:
+      - app-network
+    ports:
+      - "5000:5000"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+END
+}
 
 # ========================================
 if type brew &>/dev/null; then
