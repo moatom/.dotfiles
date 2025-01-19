@@ -51,16 +51,16 @@ alias gspp='git stash pop stash@{0}'
 
 alias cat-me="cat ./README*"
 cat-me-git() {
-  cat $(git rev-parse --show-toplevel)/TODO*
-}
-cat-todo-git() {
   cat $(git rev-parse --show-toplevel)/README*
 }
+cat-todo-git() {
+  cat $(git rev-parse --show-toplevel)/TODO*
+}
 fix-me-git() {
-  open $(git rev-parse --show-toplevel)/TODO*
+  open $(git rev-parse --show-toplevel)/README*
 }
 fix-todo-git() {
-  open $(git rev-parse --show-toplevel)/README*
+  open $(git rev-parse --show-toplevel)/TODO*
 }
 
 # Settings
@@ -196,6 +196,21 @@ networks:
 volumes:
   postgres-data:
 END
+}
+
+check-command() {
+  if alias "$1" >/dev/null 2>&1; then
+    # 引数がエイリアス名の場合
+    echo "'$1' is an alias:"
+    alias "$1"
+  elif typeset -f "$1" >/dev/null 2>&1; then
+    # 引数が関数名の場合
+    echo "'$1' is a function:"
+    typeset -f "$1"
+  else
+    # 引数がエイリアスでも関数でもない場合
+    echo "'$1' is neither an alias nor a function."
+  fi
 }
 
 # ========================================

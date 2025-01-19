@@ -59,16 +59,16 @@ alias gspp='git stash pop stash@{0}'
 
 alias cat-me="cat ./README*"
 cat-me-git() {
-  cat $(git rev-parse --show-toplevel)/TODO*
+	cat $(git rev-parse --show-toplevel)/README*
 }
 cat-todo-git() {
-  cat $(git rev-parse --show-toplevel)/README*
+	cat $(git rev-parse --show-toplevel)/TODO*
 }
 fix-me-git() {
-  open $(git rev-parse --show-toplevel)/TODO*
+	open $(git rev-parse --show-toplevel)/README*
 }
 fix-todo-git() {
-  open $(git rev-parse --show-toplevel)/README*
+	open $(git rev-parse --show-toplevel)/TODO*
 }
 
 alias cd-g="cd $DIRG"
@@ -77,8 +77,8 @@ alias cd-c='cd "$(find ~/github -maxdepth 1 -type d | fzf)"'
 
 # Settings
 alias ops-sc="open ~/.sc/"
-alias ops-sh="open SHELL_SETTINGS_BASE"
-alias ops-sh2="open SHELL_SETTINGS_MAIN"
+alias ops-sh="open $SHELL_SETTINGS_BASE"
+alias ops-sh2="open $SHELL_SETTINGS_MAIN"
 alias ops-alacritty="open ~/.config/alacritty/font.toml ~/.config/alacritty/theme.toml ~/.config/alacritty/alacritty.toml"
 alias ops-zellij="open ~/.config/zellij/config.kdl"
 alias ops-xremap="open ~/.config/xremap/config.yml"
@@ -90,7 +90,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
@@ -119,13 +119,13 @@ re-fusuma() {
 # misc
 # command ez
 docker-ez() {
-    [ -z "$1" ] && echo "Error: No image name provided" && return 1
-    docker build -t $1 .
-    docker run --rm $1
+	[ -z "$1" ] && echo "Error: No image name provided" && return 1
+	docker build -t $1 .
+	docker run --rm $1
 }
 podman-ez() {
-    podman build -t $1 .
-    podman run --rm $1
+	podman build -t $1 .
+	podman run --rm $1
 }
 
 # clip: only linux (bash)!
@@ -136,27 +136,27 @@ alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0ku
 
 # lg: lazygitでの移動を反映
 lg() {
-  export LAZYGIT_NEW_DIR_FILE=$HOME/.lazygit/newdir
+	export LAZYGIT_NEW_DIR_FILE=$HOME/.lazygit/newdir
 
-  lazygit "$@"
+	lazygit "$@"
 
-  if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
-    cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
-    rm -f $LAZYGIT_NEW_DIR_FILE >/dev/null
-  fi
+	if [ -f $LAZYGIT_NEW_DIR_FILE ]; then
+		cd "$(cat $LAZYGIT_NEW_DIR_FILE)"
+		rm -f $LAZYGIT_NEW_DIR_FILE >/dev/null
+	fi
 }
 
 # mk-
 alias mk-clip="xsel --clipboard --output > "
 
 mk-template() {
-  [ -n "$1" ] && zed $HOME/Templates/$1
+	[ -n "$1" ] && zed $HOME/Templates/$1
 }
 
 mk-from-template() {
-  [ $# -eq 1 ] && ext="${1##*.}" && template="$HOME"/Templates/*."$ext" && \
-  [ -e $template ] && cp $template "$1" && echo "Created $1 from template" $template \
-  || echo "Usage: mk-from-template <filename>; $(ls ~/Templates)"
+	[ $# -eq 1 ] && ext="${1##*.}" && template="$HOME"/Templates/*."$ext" &&
+		[ -e $template ] && cp $template "$1" && echo "Created $1 from template" $template ||
+		echo "Usage: mk-from-template <filename>; $(ls ~/Templates)"
 }
 
 mk-rep() {
@@ -165,15 +165,15 @@ mk-rep() {
 }
 
 mk-me() {
-  n REDAME.md
+	n REDAME.md
 }
 
 mk-todo() {
-  n TODO.md
+	n TODO.md
 }
 
 mk-note() {
-  n .note.md
+	n .note.md
 }
 
 mk-makefile() {
@@ -185,7 +185,7 @@ END
 }
 
 mk-dockercompose() {
-    cat <<'END' >>docker-compose.yml
+	cat <<'END' >>docker-compose.yml
 version: '3.8'
 
 services:
@@ -298,7 +298,7 @@ main "$@"
 
 SHELLSCRIPT
 	chmod +x "$1"
-    code "$1"
+	code "$1"
 }
 
 # collect reps, mk sc to unifying dirs
@@ -419,3 +419,18 @@ alias pg-bash="open 'https://www.onlinegdb.com/online_bash_shell'"
 alias pg-*="open 'https://leetcode.com/playground/new/empty'"
 
 alias pl-vim="npm create vite@latest"
+
+check-command() {
+	if alias "$1" >/dev/null 2>&1; then
+		# 引数がエイリアス名の場合
+		echo "'$1' is an alias:"
+		alias "$1"
+	elif declare -f "$1" >/dev/null 2>&1; then
+		# 引数が関数名の場合
+		echo "'$1' is a function:"
+		declare -f "$1"
+	else
+		# 引数がエイリアスでも関数でもない場合
+		echo "'$1' is neither an alias nor a function."
+	fi
+}
