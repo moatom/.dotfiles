@@ -1,8 +1,10 @@
+DOTFILES="$HOME/.dotfiles"
 SHELL_SETTINGS=".bashrc"
-SHELL_SETTINGS_MAIN="$HOME/.dotfiles/$SHELL_SETTINGS"
+SHELL_SETTINGS_MAIN="$DOTFILES/$SHELL_SETTINGS"
 SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
 export DIRG="$HOME/github"
 export DIRSC="$HOME/.sc"
+export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 
 # Editor used by CLI
 export EDITOR="nvim"
@@ -11,6 +13,7 @@ export SUDO_EDITOR="nvim"
 export PATH="$DIRSC:$PATH"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 #export PATH="~/vnev/system/bin:$PATH"
+export PATH="/home/moatom/.mozbuild/git-cinnabar:$PATH"
 
 alias sudo="sudo "
 
@@ -90,7 +93,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
@@ -160,6 +163,7 @@ mk-from-template() {
 }
 
 mk-rep() {
+  cd $DIRG
 	gh repo create
 	cp ~/Templtes/README.md ~/Templates/docker-compose.yml .
 }
@@ -174,6 +178,10 @@ mk-todo() {
 
 mk-note() {
 	n .note.md
+}
+
+mk-python() {
+  n /tmp/a.py
 }
 
 mk-makefile() {

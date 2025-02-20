@@ -1,7 +1,9 @@
+DOTFILES="$HOME/.dotfiles"
 SHELL_SETTINGS=".zshrc"
-SHELL_SETTINGS_MAIN="$HOME/.dotfiles/$SHELL_SETTINGS"
+SHELL_SETTINGS_MAIN="$DOTFILES/$SHELL_SETTINGS"
 SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
 export DIRSC="$HOME/.scripts"
+export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 
 export PATH="$DIRSC:$PATH"
 fpath=(~/.zsh/completion $fpath)
