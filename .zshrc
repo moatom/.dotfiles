@@ -2,6 +2,7 @@ DOTFILES="$HOME/.dotfiles"
 SHELL_SETTINGS=".zshrc"
 SHELL_SETTINGS_MAIN="$DOTFILES/$SHELL_SETTINGS"
 SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
+export DIRG="$HOME/program/ghe"
 export DIRSC="$HOME/.scripts"
 export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 
@@ -51,6 +52,10 @@ alias gclean='git clean -fd'
 alias gsp="git stash push -m'Save: automatic save'"
 alias gspp='git stash pop stash@{0}'
 
+alias cd-g="cd $DIRG"
+alias cd-2='mkdir -p $1 && cd $1'
+alias cd-c='cd "$(find $DIRG -maxdepth 1 -type d | fzf)"'
+
 alias cat-me="cat ./README*"
 cat-me-git() {
   cat $(git rev-parse --show-toplevel)/README*
@@ -81,7 +86,7 @@ alias ops-sh2="open $SHELL_SETTINGS_MAIN"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs code"
 
 
 re-shell() {
@@ -198,6 +203,71 @@ networks:
 volumes:
   postgres-data:
 END
+}
+
+mk-script-there() {
+	cat <<'DONE' >"$DIRSC/$1"
+#!/bin/bash
+## Usage: ${1}
+
+usage()
+{
+    echo "usage: ${1} [[-o1] [-o2] [-h]]"
+}
+
+while (( "$#" )); do
+    case "$1" in
+        -o1 | --o1)         o1=1
+                            shift
+                            ;;
+        -o2  | --o2)        o2=1
+                            shift
+                            ;;
+        -a   | --all)       o1=1
+                            o2=1
+                            shift
+                            ;;
+        -h   | --help)      usage
+                            exit 1
+                            ;;
+        *)                  usage
+                            exit 1
+    esac
+done
+
+ROOT=$(pwd)
+WORKDIR=${ROOT}/repos
+SUBREP="git@bitbucket.org:foo.git"
+OUTPUT=${ROOT}/output
+
+if [ ! -d "${WORKDIR}" ]
+then
+    echo "# Cloning repos locally ... "
+
+    mkdir $WORKDIR
+    git clone ${SUBREP} "${WORKDIR}/foo"
+else
+    echo "# Updating repos locally ... "
+
+    git clean -Xdf "${WORKDIR}/foo"; cd "${WORKDIR}/foo"; git pull; cd ..
+fi
+
+if [ ! -z "${o1}" ]; then
+    echo "# Work on foo1"
+    git checkout master
+fi
+
+if [ ! -z "${o2}" ]; then
+    echo "# Work on foo2"
+    git checkout master
+fi
+
+cd $ROOT
+
+}
+DONE
+	chmod +x "$DIRSC/$1"
+	code "$DIRSC/$1"
 }
 
 check-command() {

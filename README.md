@@ -4,6 +4,7 @@
 
 ```bash
 brew install hammerspoon
+ln -sfn ~/.dotfiles/macos/.hammerspoon/init.lua ~/.hammerspoon/init.lua
 ```
 
 cat ~/.hammerspoon/init.lua

@@ -1,7 +1,7 @@
 -- Option + ` でGhosttyのオーバーレイをトグル
 local hyperKey = { "alt" }
 local toggleKey = "`"
-local ghosttyAppName = "Ghostty" -- Ghosttyのアプリ名（必要に応じて変更）
+local ghosttyAppName = "Google Chrome" -- Ghosttyのアプリ名（必要に応じて変更）
 
 -- Ghosttyのウィンドウをトグル
 local function toggleGhosttyOverlay()

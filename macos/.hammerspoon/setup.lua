@@ -1,8 +1,10 @@
 local spaces = require("hs.spaces")
 local appLayout = {
-    {"Safari", nil, 1},  -- Safariをスペース1に配置
-    {"Slack", nil, 2},   -- Slackをスペース2に配置
-    {"Terminal", nil, 3} -- Terminalをスペース3に配置
+    -- {"Google Chrome", nil, 1},
+    -- {"Gmail", nil, 2}
+    -- {"Safari", nil, 1},  -- Safariをスペース1に配置
+    -- {"Slack", nil, 2},   -- Slackをスペース2に配置
+    -- {"Terminal", nil, 3} -- Terminalをスペース3に配置
 }
 for i, app in ipairs(appLayout) do
     hs.application.launchOrFocus(app[1])

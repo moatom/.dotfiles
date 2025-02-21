@@ -76,7 +76,7 @@ fix-todo-git() {
 
 alias cd-g="cd $DIRG"
 alias cd-2='mkdir -p $1 && cd $1'
-alias cd-c='cd "$(find ~/github -maxdepth 1 -type d | fzf)"'
+alias cd-c='cd "$(find $DIRG -maxdepth 1 -type d | fzf)"'
 
 # Settings
 alias ops-sc="open ~/.sc/"
@@ -93,7 +93,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find ~/github -maxdepth 1 -type d)) | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
@@ -371,8 +371,8 @@ cd $ROOT
 
 }
 DONE
-	chmod +x "$DIRSH/$1"
-	code "$DIRSH/$1"
+	chmod +x "$DIRSC/$1"
+	code "$DIRSC/$1"
 }
 
 # interpret/playground/play
