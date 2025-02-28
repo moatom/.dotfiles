@@ -93,7 +93,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
+alias opc="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
