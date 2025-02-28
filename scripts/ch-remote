@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# 現在のリポジトリURLを確認
+current_origin=$(git remote get-url origin)
+
+if [ -z "$current_origin" ]; then
+  echo "Error: 現在のリポジトリに 'origin' が設定されていません。"
+  exit 1
+fi
+
+echo "現在の 'origin': $current_origin"
+
+# 'origin' を 'upstream' に変更
+git remote rename origin upstream
+if [ $? -ne 0 ]; then
+  echo "Error: 'origin' の名前変更に失敗しました。"
+  exit 1
+fi
+
+echo "'origin' を 'upstream' に変更しました。"
+
+# 新しい 'origin' を設定
+read -p "新しいリポジトリのURLを入力してください: " new_origin
+
+if [ -z "$new_origin" ]; then
+  echo "Error: 新しいリポジトリURLが入力されませんでした。"
+  exit 1
+fi
+
+git remote add origin "$new_origin"
+if [ $? -ne 0 ]; then
+  echo "Error: 新しい 'origin' の設定に失敗しました。"
+  exit 1
+fi
+
+echo "新しい 'origin' を設定しました: $new_origin"
+
+# 設定結果を確認
+git remote -v
+
