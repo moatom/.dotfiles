@@ -5,6 +5,12 @@
 ```bash
 brew install hammerspoon
 ln -sfn ~/.dotfiles/macos/.hammerspoon/init.lua ~/.hammerspoon/init.lua
+
+
+git config --global alias.foo status # `git foo`→`git status`
+git config --global alias.today '!date'
+
+git config --global alias.co checkout
 ```
 
 cat ~/.hammerspoon/init.lua
