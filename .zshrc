@@ -26,11 +26,14 @@ alias ga='git add'
 alias gcm='git commit'
 alias gca='git commit --amend'
 alias gco='git checkout'
+alias gcom='git checkout origin master'
+alias gcomn='git checkout origin main'
 
 alias gp='git push'
 alias gpo='git push origin'
 alias gpl='git pull'
 alias gplr='git pull --rebase'
+alias gplnr='git pull --no-rebase'
 alias gplo='git pull origin'
 alias gf='git fetch'
 alias gfp='git fetch --prune'
@@ -40,6 +43,7 @@ alias gb='git branch'
 alias gbr='git branch -r'
 alias gd='git diff'
 alias grb='git rebase'
+alias grhm='git fetch && git reset --hard upstram/master'
 alias gr='git remote'
 alias grs='git remote show'
 
@@ -95,7 +99,7 @@ re-shell() {
 
 # Misc
 # command ez
-docker-ez() {
+ez-docker() {
     [ -z "$1" ] && echo "Error: No image name provided" && return 1
     docker build -t $1 .
     docker run --rm $1

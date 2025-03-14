@@ -54,6 +54,10 @@ sudo udevadm monitor --subsystem-match=input
     lg = log --oneline --graph --decorate
 ```
 
+### audio
+
+https://georgielabs.net/
+
 ### install
 
 ```bash

@@ -1,0 +1,45 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: NordVPNリポジトリのGPGキーを追加
+      apt_key:
+        url: https://repo.nordvpn.com/gpg/nordvpn_public.asc
+        state: present
+
+    - name: NordVPNリポジトリを追加
+      apt_repository:
+        repo: "deb https://repo.nordvpn.com/deb/nordvpn/debian stable main"
+        state: present
+
+    - name: パッケージリストを更新
+      apt:
+        update_cache: yes
+
+    - name: NordVPNをインストール
+      apt:
+        name: nordvpn
+        state: latest
+
+    - name: ユーザーをnordvpnグループに追加
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: nordvpn
+        append: yes
+
+    - name: NordVPNにログイン
+      command: nordvpn login
+      register: login_output
+      ignore_errors: yes
+
+    - name: VPN接続設定（日本サーバー）
+      command: nordvpn connect jp
+      register: connect_output
+      ignore_errors: yes
+
+    - name: VPNステータス確認
+      command: nordvpn status
+      register: status_output
+
+    - debug:
+        msg: "{{ status_output.stdout }}"
