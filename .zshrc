@@ -31,6 +31,8 @@ alias gcomn='git checkout origin main'
 
 alias gp='git push'
 alias gpo='git push origin'
+alias gpom='git push origin master'
+alias gpomn='git push origin main'
 alias gpl='git pull'
 alias gplr='git pull --rebase'
 alias gplnr='git pull --no-rebase'
