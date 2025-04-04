@@ -22,7 +22,10 @@ activate() {
 	source .venv/bin/activate
 }
 
+alias rcp="rsync -avP"
+
 alias relogin='exec $SHELL -l'
+alias s='ssh'
 alias n='nvim '
 alias e='emacs '
 alias ls='ls --color=auto'
@@ -50,6 +53,8 @@ alias gd='git diff'
 alias grb='git rebase'
 alias gr='git remote'
 alias grs='git remote show'
+alias grau='git remote add upstream'
+alias grao='git remote add origin'
 
 alias gl='git log --oneline --graph --decorate'
 alias glo='git log --pretty="oneline"'
@@ -57,8 +62,28 @@ alias gtd='git tag --delete'
 alias gtdr='git tag --delete origin'
 alias gclean='git clean -fd'
 
-alias gsp="git stash push -m'Save: automatic save'"
+alias gsp="git stash push -u -m'Save: automatic save'"
 alias gspp='git stash pop stash@{0}'
+
+alias dcu-m="docker-compose -f docker-compose-only-middleware.yml up -d"
+alias dcu-l="docker-compose -f docker-compose-localtest.yml up -d"
+alias dcd-m="docker-compose -f docker-compose-only-middleware.yml down -v"
+alias dcd-l="docker-compose -f docker-compose-localtest.yml down -v"
+alias dcs='docker stop $(docker ps -q)'
+dcc() { # clean
+  docker ps -aq | grep -v $(docker ps -aq --filter "name=k8s_POD_") | xargs docker stop
+  docker ps -aq | grep -v $(docker ps -aq --filter "name=k8s_POD_") | xargs docker rm
+  docker volume prune -f
+}
+
+alias cd-g="cd $DIRG"
+alias cd-2='mkdir -p $1 && cd $1'
+alias cd-c='cd "$(find $DIRG -maxdepth 1 -type d | fzf)"'
+
+alias treem="tree -ah -I 'node_modules|.git|.DS_Store' --dirsfirst"
+
+# docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest run --env HOST=$host foo.js
+alias k6-d="docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest"
 
 alias cat-me="cat ./README*"
 cat-me-git() {
@@ -74,9 +99,6 @@ fix-todo-git() {
 	open $(git rev-parse --show-toplevel)/TODO*
 }
 
-alias cd-g="cd $DIRG"
-alias cd-2='mkdir -p $1 && cd $1'
-alias cd-c='cd "$(find $DIRG -maxdepth 1 -type d | fzf)"'
 
 # Settings
 alias ops-sc="open ~/.sc/"
@@ -93,7 +115,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias opc="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
+alias o="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
