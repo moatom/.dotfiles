@@ -37,11 +37,16 @@ alias ga='git add'
 alias gcm='git commit'
 alias gca='git commit --amend'
 alias gco='git checkout'
+alias gcom='git checkout origin master'
+alias gcomn='git checkout origin main'
 
 alias gp='git push'
 alias gpo='git push origin'
+alias gpom='git push origin master'
+alias gpomn='git push origin main'
 alias gpl='git pull'
 alias gplr='git pull --rebase'
+alias gplnr='git pull --no-rebase'
 alias gplo='git pull origin'
 alias gf='git fetch'
 alias gfp='git fetch --prune'
@@ -51,6 +56,7 @@ alias gb='git branch'
 alias gbr='git branch -r'
 alias gd='git diff'
 alias grb='git rebase'
+alias grhm='git fetch && git reset --hard upstram/master'
 alias gr='git remote'
 alias grs='git remote show'
 alias grau='git remote add upstream'
@@ -115,7 +121,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias o="(cat <(echo $HOME/.dotfiles) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
+alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
 
 #alias open="xdg-open"
 open() {
@@ -143,12 +149,12 @@ re-fusuma() {
 
 # misc
 # command ez
-docker-ez() {
+ez-docker() {
 	[ -z "$1" ] && echo "Error: No image name provided" && return 1
 	docker build -t $1 .
 	docker run --rm $1
 }
-podman-ez() {
+ez-podman() {
 	podman build -t $1 .
 	podman run --rm $1
 }
