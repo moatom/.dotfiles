@@ -19,6 +19,7 @@ alias rcp="rsync -avP"
 alias relogin='exec $SHELL -l'
 alias s='ssh'
 # compdef s=ssh
+# compdef _ssh s
 alias n='nvim '
 alias e='emacs '
 alias ls='ls --color=auto'

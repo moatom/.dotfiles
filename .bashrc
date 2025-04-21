@@ -15,6 +15,14 @@ export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 #export PATH="~/vnev/system/bin:$PATH"
 export PATH="/home/moatom/.mozbuild/git-cinnabar:$PATH"
 
+if [ -d "$HOME/.dotfiles/.bash_completion.d" ]; then
+  shopt -s nullglob
+  for file in "$HOME/.dotfiles/.bash_completion.d/"*; do
+      [ -f "$file" ] && source "$file"
+  done
+  shopt -u nullglob
+fi
+
 alias sudo="sudo "
 
 # alias
@@ -27,7 +35,9 @@ alias rcp="rsync -avP"
 alias relogin='exec $SHELL -l'
 alias s='ssh'
 alias n='nvim '
+alias r='redis-cli'
 alias e='emacs '
+alias c='cd'
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
@@ -37,6 +47,7 @@ alias ga='git add'
 alias gcm='git commit'
 alias gca='git commit --amend'
 alias gco='git checkout'
+# complete -o default -F _git_checkout_wrapper gco
 alias gcom='git checkout origin master'
 alias gcomn='git checkout origin main'
 
@@ -416,22 +427,22 @@ rust() {
 
 alias rusti="evcxr"
 
-c() {
-	local tmp st
-	tmp=$(mktemp)
+# c() {
+# 	local tmp st
+# 	tmp=$(mktemp)
 
-	gcc -Wall -Wextra -o "$tmp" "$@"
-	st="$?"
-	if [ "$st" != 0 ]; then
-		rm "$tmp"
-		return "$st"
-	fi
+# 	gcc -Wall -Wextra -o "$tmp" "$@"
+# 	st="$?"
+# 	if [ "$st" != 0 ]; then
+# 		rm "$tmp"
+# 		return "$st"
+# 	fi
 
-	"$tmp"
-	st="$?"
-	rm "$tmp"
-	return "$st"
-}
+# 	"$tmp"
+# 	st="$?"
+# 	rm "$tmp"
+# 	return "$st"
+# }
 
 cpp() {
 	local tmp st
@@ -456,7 +467,7 @@ alias pg-*="open 'https://leetcode.com/playground/new/empty'"
 
 alias pl-vim="npm create vite@latest"
 
-check-command() {
+ck-command() {
 	if alias "$1" >/dev/null 2>&1; then
 		# 引数がエイリアス名の場合
 		echo "'$1' is an alias:"
@@ -469,4 +480,7 @@ check-command() {
 		# 引数がエイリアスでも関数でもない場合
 		echo "'$1' is neither an alias nor a function."
 	fi
+}
+ck-alias() {
+  cat $SHELL_SETTINGS_MAIN $SHELL_SETTINGS_BASE | grep -E "^alias .*="
 }

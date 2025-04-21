@@ -1,0 +1,41 @@
+# Ignore all files in the root directory
+/*
+
+
+
+# Allow specific files and directories
+!.gitignore
+!.config/
+!.bashrc
+!.zshrc
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+
+# Ignore logs
+*.log
+
+# Ignore compiled files
+*.o
+*.out
+*.class
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore IDE and editor files
+.idea/
+.vscode/
+*.iml
+
+#
+_opam
+_build
