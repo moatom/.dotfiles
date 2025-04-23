@@ -32,7 +32,7 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
 
-alias gs='git status'
+alias gst='git status'
 alias ga='git add'
 alias gcm='git commit'
 alias gca='git commit --amend'
@@ -68,6 +68,7 @@ alias gtd='git tag --delete'
 alias gtdr='git tag --delete origin'
 alias gclean='git clean -fd'
 
+alias gs="git stash"
 alias gsp="git stash push -u -m'Save: automatic save'"
 alias gspp='git stash pop stash@{0}'
 
@@ -122,6 +123,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
 alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
+alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
 
 #alias open="xdg-open"
 open() {
