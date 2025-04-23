@@ -1,0 +1,21 @@
+# source $HOME/.dotfiles/.bashrc
+
+source /usr/share/bash-completion/completions/git
+__git_complete gco _git_checkout
+# _git_checkout_wrapper() {
+#     # __git_find_repo_path
+#     __git_complete_refs
+#     # _git_checkout
+# }
+
+source /usr/share/bash-completion/completions/ssh
+complete -o default -F _ssh s
+
+source /usr/share/bash-completion/completions/redis-cli
+complete -F _redis-cli r
+
+_check_command_complete() {
+    # 実行可能なコマンドを補完
+    COMPREPLY=($(compgen -c -- "${COMP_WORDS[1]}"))
+}
+complete -F _check_command_complete check-command
