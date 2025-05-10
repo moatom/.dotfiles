@@ -1,0 +1,7 @@
+[Unit]
+Description=Suspend the system
+After=set-rtc-wakeup.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl suspend

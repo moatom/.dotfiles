@@ -1,0 +1,36 @@
+---
+# BIOS:
+# Wake on LAN → Enabled
+# Power on by PCI-E → Enabled（NICがPCIeなら）
+
+- name: Install ethtool
+  apt:
+    name: ethtool
+    state: present
+  become: true
+
+- name: Install networkd-dispatcher
+  apt:
+    name: networkd-dispatcher
+    state: present
+  become: true
+
+- name: Ensure networkd-dispatcher routable.d directory exists
+  file:
+    path: /etc/networkd-dispatcher/routable.d
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: Enable Wake-on-LAN
+  command: ethtool -s {{ nic_name }} wol g
+  become: true
+
+- name: Ensure wol setting persists after reboot
+  copy:
+    dest: /etc/networkd-dispatcher/routable.d/wol.sh
+    mode: '0755'
+    content: |
+      #!/bin/bash
+      ethtool -s {{ nic_name }} wol g
+  become: true

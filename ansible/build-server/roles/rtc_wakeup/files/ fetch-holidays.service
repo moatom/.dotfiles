@@ -1,0 +1,5 @@
+[Unit]
+Description=Fetch Japanese Holidays
+
+[Service]
+ExecStart=/usr/local/bin/fetch_holidays.sh

@@ -1,0 +1,11 @@
+[Unit]
+Description=Magic Packet Listener to Wake Build Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/magic_packet_listener.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

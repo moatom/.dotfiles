@@ -1,0 +1,95 @@
+---
+- name: jq をインストール
+  package:
+    name: jq
+    state: present
+
+- name: スクリプト設置
+  copy:
+    src: fetch_holidays.sh
+    dest: /usr/local/bin/fetch_holidays.sh
+    mode: '0755'
+
+- name: systemd-timer（毎月1日に更新）
+  copy:
+    src: fetch-holidays.timer
+    dest: /etc/systemd/system/fetch-holidays.timer
+    mode: '0644'
+
+- name: service unit
+  copy:
+    src: fetch-holidays.service
+    dest: /etc/systemd/system/fetch-holidays.service
+    mode: '0644'
+
+- name: タイマー有効化
+  systemd:
+    name: fetch-holidays.timer
+    enabled: true
+    state: started
+
+# ＝＝＝＝＝
+
+- name: Deploy wake time setter script
+  copy:
+    dest: /usr/local/bin/set_rtc_wakeup.sh
+    mode: '0755'
+    content: "{{ lookup('file', 'files/set_rtc_wakeup.sh') }}"
+
+- name: Deploy timers and services
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item | basename }}"
+    mode: '0644'
+  with_fileglob:
+    - "files/set-rtc-wakeup.*"
+    - "files/suspend-at-2am.*"
+
+- name: Enable and start timers
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - set-rtc-wakeup.timer
+    - suspend-at-2am.timer
+
+# =====
+# - name: Install rtcwake package
+#   apt:
+#     name: util-linux
+#     state: present
+
+# - name: Set RTC wakeup time for 9:00 AM
+#   copy:
+#     dest: /etc/cron.d/set_rtc_wakeup
+#     content: |
+#       # Run RTC wakeup script at boot
+#       @reboot root /usr/local/bin/set_rtc_wakeup.sh
+#     mode: '0644'
+
+# - name: Create RTC wakeup script
+#   copy:
+#     dest: /usr/local/bin/set_rtc_wakeup.sh
+#     content: |
+#       #!/bin/bash
+#       rtcwake -m no -s 28800  # 28800秒後 = 8時間後（例: 毎朝9時に起動）
+#     mode: '0755'
+
+# ===== WOL経由のスケジューリングも可能
+# - name: Create script to send WOL Magic Packet
+#   copy:
+#     dest: /usr/local/bin/send_wol_packet.sh
+#     content: |
+#       #!/bin/bash
+#       ether-wake -i {{ nic_name }} {{ mac_address }}
+#     mode: '0755'
+
+# - name: Create cron job for WOL
+#   cron:
+#     name: "Send WOL Magic Packet"
+#     minute: "0"
+#     hour: "9"
+#     weekday: "1-5"  # 月曜日から金曜日の9:00にWOL送信
+#     job: "/usr/local/bin/send_wol_packet.sh"
+#     state: present

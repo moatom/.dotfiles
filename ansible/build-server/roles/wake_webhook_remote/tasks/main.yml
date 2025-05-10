@@ -1,0 +1,19 @@
+---
+# `curl -X POST raspi.local:4000 -d "wake"`とかで受ける。portは要調整。
+- name: magic_packet_listener.sh 配置
+  copy:
+    src: magic_packet_listener.sh
+    dest: /usr/local/bin/magic_packet_listener.sh
+    mode: '0755'
+
+- name: systemd service 配置
+  copy:
+    src: magic-packet-listener.service
+    dest: /etc/systemd/system/magic-packet-listener.service
+    mode: '0644'
+
+- name: サービス有効化
+  systemd:
+    name: magic-packet-listener.service
+    enabled: true
+    state: started

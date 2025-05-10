@@ -1,0 +1,19 @@
+---
+- name: Configure auto suspend in logind.conf
+  lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^#?IdleAction='
+    line: 'IdleAction=suspend'
+  notify: Restart logind
+
+- name: Set idle timeout
+  lineinfile:
+    path: /etc/systemd/logind.conf
+    regexp: '^#?IdleActionSec='
+    line: 'IdleActionSec=10min'
+  notify: Restart logind
+
+- name: Restart logind
+  systemd:
+    name: systemd-logind
+    state: restarted

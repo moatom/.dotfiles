@@ -1,0 +1,7 @@
+[Unit]
+Description=Set RTC Wake Time
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/m-set-rtc-wakeup.sh

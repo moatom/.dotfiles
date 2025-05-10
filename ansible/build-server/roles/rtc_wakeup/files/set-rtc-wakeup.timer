@@ -1,0 +1,9 @@
+[Unit]
+Description=Set RTC Wake Timer
+
+[Timer]
+OnCalendar=*-*-* 01:59:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

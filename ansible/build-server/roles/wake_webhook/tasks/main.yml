@@ -1,0 +1,80 @@
+---
+# `curl -X POST raspi.local:4000 -d "wake"`とかで受ける。portは要調整。
+- name: Install Flask and wakeonlan
+  apt:
+    name:
+      - python3-flask
+      - wakeonlan
+    state: present
+
+- name: Deploy webhook server
+  copy:
+    dest: /opt/wake_server/app.py
+    content: |
+      from flask import Flask, request
+      import os
+      app = Flask(__name__)
+      @app.route("/wake", methods=["POST"])
+      def wake():
+          os.system("wakeonlan {{ mac_address }}")
+          return "OK"
+
+- name: Deploy systemd unit
+  copy:
+    dest: /etc/systemd/system/wake-server.service
+    content: |
+      [Unit]
+      Description=Wake Webhook Server
+      After=network.target
+
+      [Service]
+      ExecStart=/usr/bin/python3 /opt/wake_server/app.py
+      WorkingDirectory=/opt/wake_server
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Enable and start webhook
+  systemd:
+    name: wake-server
+    enabled: true
+    state: started
+
+# - name: Clone WOL Webhook server repository
+#   git:
+#     repo: 'https://github.com/yourusername/wol-webhook.git'
+#     dest: /opt/wol-webhook
+#     version: master
+
+# - name: Install dependencies for WOL Webhook server
+#   pip:
+#     name:
+#       - flask
+#       - python-socketio
+#     state: present
+
+# - name: Setup Webhook service (for remote WOL triggering)
+#   copy:
+#     dest: /etc/systemd/system/wol-webhook.service
+#     content: |
+#       [Unit]
+#       Description=WOL Webhook Service
+#       After=network.target
+
+#       [Service]
+#       ExecStart=/usr/bin/python3 /opt/wol-webhook/app.py
+#       WorkingDirectory=/opt/wol-webhook
+#       Restart=always
+#       User=your_user
+#       Group=your_group
+
+#       [Install]
+#       WantedBy=multi-user.target
+#     mode: '0644'
+
+# - name: Start WOL Webhook service
+#   systemd:
+#     name: wol-webhook.service
+#     enabled: yes
+#     state: started

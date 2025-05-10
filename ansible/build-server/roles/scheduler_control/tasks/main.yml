@@ -1,0 +1,27 @@
+---
+- name: Create config directory
+  file:
+    path: "/home/{{ ansible_user }}/.config/wol_scheduler"
+    state: directory
+    owner: "{{ ansible_user }}"
+    mode: '0755'
+
+- name: Install scheduler toggle scripts
+  copy:
+    dest: "/usr/local/bin/{{ item.name }}"
+    content: "{{ item.content }}"
+    mode: '0755'
+  loop:
+    - name: m-disable_scheduler.sh
+      content: |
+        #!/bin/bash
+        mkdir -p ~/.config/wol_scheduler
+        touch ~/.config/wol_scheduler/disabled
+    - name: m-enable_scheduler.sh
+      content: |
+        #!/bin/bash
+        rm -f ~/.config/wol_scheduler/disabled
+    - name: m-manual_suspend.sh
+      content: |
+        #!/bin/bash
+        sudo systemctl suspend

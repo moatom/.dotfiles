@@ -1,0 +1,26 @@
+---
+- hosts: home_server
+  become: true
+  vars:
+    nic_name: enp3s0  # NICの名前
+    mac_address: "00:11:22:33:44:55"  # WOL用のターゲットMACアドレス
+    # holidays_api_url: "https://holidays-jp.github.io/api/v1/2025.json"  # 祝日APIのURL
+    # cron_sleep_script: "/usr/local/bin/disable_scheduler.sh"  # スケジューラ無効化用スクリプトパス
+    # force_suspend: false  # 強制スリープオプション（trueなら強制スリープ）
+    # webhook_server: "webhook-server.example.com"  # Webhookサーバのホスト名
+    # my_user: "{{ lookup('env', 'USER') }}"
+  roles:
+    - wol # wol対応
+    - suspend # 10minアイドルでaction実行。いらないかも。wol経由の起動スクリプトは必須かな。curlでいいか。
+    - rtc_wakeup # スケジューラー
+    - scheduler_control # スケジュールコントロールスクリプト
+
+- hosts: raspi_host
+  become: true
+  vars:
+    mac_address: "00:11:22:33:44:55"  # WOL用のターゲットMACアドレス
+    # build_server_nic: enp3s0
+    # build_server_mac: "00:11:22:33:44:55"
+  roles:
+    - wake_webhook # ラズパイからWOL（python）
+    # - wake_webhook_remote # ラズパイからWOL（shell）
