@@ -26,6 +26,9 @@ alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
 
+alias gc='cat ~/.gitconfig'
+alias gi='cat ~/.gitignore_global'
+
 alias gst='git status'
 alias ga='git add'
 alias gcm='git commit'
@@ -87,19 +90,22 @@ alias cd-c='cd "$(find $DIRG -maxdepth 1 -type d | fzf)"'
 # docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest run --env HOST=$host foo.js
 alias k6-d="docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest"
 
-alias cat-me="cat ./README*"
-cat-me-git() {
-  cat $(git rev-parse --show-toplevel)/README*
-}
-cat-todo-git() {
-  cat $(git rev-parse --show-toplevel)/TODO*
-}
-fix-me-git() {
-  open $(git rev-parse --show-toplevel)/README*
-}
-fix-todo-git() {
-  open $(git rev-parse --show-toplevel)/TODO*
-}
+alias d="cat .d.md"
+alias dr="code .d.md"
+alias d-ignore='echo ".d.md" >> ~/.gitignore_global'
+# alias cat-me="cat ./README*"
+# cat-me-git() {
+#   cat $(git rev-parse --show-toplevel)/README*
+# }
+# cat-todo-git() {
+#   cat $(git rev-parse --show-toplevel)/TODO*
+# }
+# fix-me-git() {
+#   open $(git rev-parse --show-toplevel)/README*
+# }
+# fix-todo-git() {
+#   open $(git rev-parse --show-toplevel)/TODO*
+# }
 
 # Settings
 ops-shell() {
@@ -117,9 +123,24 @@ alias ops-sh2="open $SHELL_SETTINGS_MAIN"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias o="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs code"
-alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
+# alias o="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs code"
+# alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
+o() {
+  local selection
+selection=$(cat <(echo "$HOME/.dotfiles") \
+                 <(echo "$DIRSC") \
+                 <(find "~/program" -maxdepth 2 -type d 2>/dev/null) | fzf)
 
+  [ -n "$selection" ] && code "$selection"
+}
+o2() {
+  local selection
+  selection=$(cat <(echo "$HOME/.dotfiles") \
+                 <(echo "$DIRSC") \
+                 <(find "~/program" -maxdepth 2 -type d 2>/dev/null) | fzf)
+
+  [ -n "$selection" ] && idea1 "$selection"
+}
 
 re-shell() {
   exec $SHELL -l

@@ -51,6 +51,9 @@ alias bg='gsettings set org.gnome.desktop.background picture-uri'
 alias bgd='gsettings set org.gnome.desktop.background picture-uri-dark'
 # gsettings set org.gnome.desktop.background picture-uri "file:///home/username/Pictures/wallpaper.jpg"
 
+alias gc='cat ~/.gitconfig'
+alias gi='cat ~/.gitignore_global'
+
 alias gst='git status'
 alias ga='git add'
 alias gcm='git commit'
@@ -113,19 +116,23 @@ alias treem="tree -ah -I 'node_modules|.git|.DS_Store' --dirsfirst"
 # docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest run --env HOST=$host foo.js
 alias k6-d="docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest"
 
-alias cat-me="cat ./README*"
-cat-me-git() {
-	cat $(git rev-parse --show-toplevel)/README*
-}
-cat-todo-git() {
-	cat $(git rev-parse --show-toplevel)/TODO*
-}
-fix-me-git() {
-	open $(git rev-parse --show-toplevel)/README*
-}
-fix-todo-git() {
-	open $(git rev-parse --show-toplevel)/TODO*
-}
+alias d="cat .d.md"
+alias dr="code .d.md"
+alias d-ignore='echo ".d.md" >> ~/.gitignore_global'
+
+# alias cat-me="cat ./README*"
+# cat-me-git() {
+# 	cat $(git rev-parse --show-toplevel)/README*
+# }
+# cat-todo-git() {
+# 	cat $(git rev-parse --show-toplevel)/TODO*
+# }
+# fix-me-git() {
+# 	open $(git rev-parse --show-toplevel)/README*
+# }
+# fix-todo-git() {
+# 	open $(git rev-parse --show-toplevel)/TODO*
+# }
 
 
 # Settings
@@ -143,8 +150,28 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
 
-alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
-alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
+# alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
+# alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
+# /var/log, /etc, /usr/local, /etc/logrotate.d
+o() {
+  local selection
+  selection=$(cat <(echo "$HOME/.dotfiles") \
+                 <(echo "/etc/systemd/system/") \
+                 <(echo "$HOME/Templates") \
+                 <(echo "$HOME/.sc") \
+                 <(echo "$HOME/.bashrc") \
+                 <(find "$DIRG" -maxdepth 1 -type d 2>/dev/null) | fzf)
+
+  [ -n "$selection" ] && code "$selection"
+}
+o2() {
+  local selection
+  selection=$(cat <(echo "$HOME/.dotfiles") \
+                 <(echo "$DIRSC") \
+                 <(find "~/program" -maxdepth 2 -type d 2>/dev/null) | fzf)
+
+  [ -n "$selection" ] && idea1 "$selection"
+}
 
 #alias open="xdg-open"
 open() {
@@ -170,6 +197,7 @@ re-fusuma() {
 	fusuma -d
 }
 
+# ==================================================
 # misc
 # command ez
 ez-docker() {
