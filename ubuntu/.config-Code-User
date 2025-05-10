@@ -1,0 +1,2 @@
+ cat ~/.config/Code/User/keybindings.json 
+ cp ~/.config/Code/User/snippets/rust.json ./
