@@ -1,0 +1,59 @@
+// Place your key bindings in this file to override the defaults
+[
+{
+    "key": "ctrl+k",
+    "command": "terminal.integrated.commandsToSkipShell",
+    "when": "terminalFocus"
+},
+//
+{
+  "key": "alt+shift+up",
+  "command": "editor.action.copyLinesUpAction",
+  "when": "editorTextFocus && !editorReadonly"
+},
+{
+  "key": "alt+shift+down",
+  "command": "editor.action.copyLinesDownAction",
+  "when": "editorTextFocus && !editorReadonly"
+},
+{
+  "key": "alt+shift+up",
+  "command": "-editor.action.insertCursorAbove",
+  "when": "editorTextFocus && !editorReadonly"
+},
+{
+  "key": "alt+shift+down",
+  "command": "-editor.action.insertCursorBelow",
+  "when": "editorTextFocus && !editorReadonly"
+},
+{
+  "key": "ctrl+shift+up",
+  "command": "editor.action.insertCursorAbove",
+  "when": "editorTextFocus && !editorReadonly"
+},
+{
+  "key": "ctrl+shift+down",
+  "command": "editor.action.insertCursorBelow",
+  "when": "editorTextFocus && !editorReadonly"
+},
+//
+{
+  "key": "alt+-",
+  "command": "workbench.action.navigateBack",
+  "when": "editorTextFocus"
+},
+//
+{
+  "key": "alt+f",
+  "command": "workbench.action.toggleKeybindingsLog",
+},
+{
+  "key": "alt+s",
+  "command": "workbench.action.openSnippets",
+  // "args": "rust"
+},
+{
+  "key": "alt+r",
+  "command": "workbench.action.openGlobalKeybindingsFile",
+}
+]

@@ -1,0 +1,41 @@
+_vmctl() {
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    case "$COMP_CWORD" in
+        1)
+            COMPREPLY=( $(compgen -W "help start stop restart status ip save" -- $cur) );;
+        *)
+            COMPREPLY=( $(compgen -W "$(jq -r '.[].name' ~/.vmctl.json)" -- $cur) );;
+    esac
+}
+
+# _vmctl() {
+#     local cur=${COMP_WORDS[COMP_CWORD]}
+
+#     # jq がない場合は補完を提供しない
+#     command -v jq >/dev/null 2>&1 || return
+
+#     # .vmctl.json が存在しない場合は補完を提供しない
+#     [ -f ~/.vmctl.json ] || return
+
+#     case "$COMP_CWORD" in
+#         1)
+#             COMPREPLY=( $(compgen -W "help start stop restart status ip save" -- "$cur") );;
+#         2)
+#             case "${COMP_WORDS[1]}" in
+#                 start|status|ip|save)
+#                     # すべてのVM名を補完
+#                     COMPREPLY=( $(compgen -W "$(jq -r '.[].name' ~/.vmctl.json)" -- "$cur") );;
+#                 stop|restart)
+#                     # 起動中のVM名を補完
+#                     COMPREPLY=( $(compgen -W "$(jq -r '.[] | select(.running == true) | .name' ~/.vmctl.json)" -- "$cur") );;
+#                 *)
+#                     COMPREPLY=() ;;
+#             esac
+#             ;;
+#         *)
+#             COMPREPLY=()
+#             ;;
+#     esac
+# }
+
+# complete -F _vmctl vmctl

@@ -41,6 +41,9 @@ alias c='cd'
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
+alias bg='gsettings set org.gnome.desktop.background picture-uri'
+alias bgd='gsettings set org.gnome.desktop.background picture-uri-dark'
+# gsettings set org.gnome.desktop.background picture-uri "file:///home/username/Pictures/wallpaper.jpg"
 
 alias gst='git status'
 alias ga='git add'

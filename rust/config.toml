@@ -1,0 +1,20 @@
+# Includes one of the default files in src/bootstrap/defaults
+profile = "compiler"
+change-id = 126701
+
+[llvm]
+download-ci-llvm = false
+#assertions = true         # （任意）LLVMアサーションを有効化
+ccache = true             # （任意）ccacheを有効化してビルドを高速化
+#ninja = true
+
+[rust]
+#debug = false
+#optimize-tests = true
+
+#codegen-tests = true
+codegen-units = 8
+incremental = true
+
+#debug = true
+#debuginfo-level = 2

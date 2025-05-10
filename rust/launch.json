@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Launch",
+      // array of string command-line arguments to pass to compiler
+      // "args": ["tests/mir-opt/nll/named_lifetimes_basic.rs"]
+      "program": "${workspaceFolder}/build/host/stage1/bin/rustc",
+      "windows": {  // applicable if using windows
+          "program": "${workspaceFolder}/build/host/stage1/bin/rustc.exe"
+      },
+      "cwd": "${workspaceFolder}",  // current working directory at program start
+      "env": {
+        "RUSTC_SYSROOT": "/home/moatom/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu",
+        "RUSTC_LOG": "debug"
+      },
+      "stopOnEntry": false,
+      "sourceLanguages": ["rust"]
+    }
+  ]
+}

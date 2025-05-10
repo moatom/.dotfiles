@@ -1,0 +1,25 @@
+name: Deploy to Kubernetes
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t myapp:latest .
+          docker tag myapp:latest myrepo/myapp:latest
+          docker push myrepo/myapp:latest
+      - name: contanerd
+        run: |
+          ctr image pull my_image:latest
+      #     ctr run -d --name my_container my_image:latest
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f deployment.yaml
