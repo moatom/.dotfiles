@@ -302,7 +302,7 @@ DONE
 	code "$DIRSC/$1"
 }
 
-check-command() {
+h-command() {
   if alias "$1" >/dev/null 2>&1; then
     # 引数がエイリアス名の場合
     echo "'$1' is an alias:"
@@ -315,6 +315,10 @@ check-command() {
     # 引数がエイリアスでも関数でもない場合
     echo "'$1' is neither an alias nor a function."
   fi
+}
+
+h() {
+  cat $SHELL_SETTINGS_MAIN $SHELL_SETTINGS_BASE | grep -E "^alias .*="
 }
 
 # ========================================
@@ -341,16 +345,10 @@ setopt PROMPT_SUBST
 PS1='%F{green}%n:%c%f%F{022}$(__git_ps1 "(%s)")%f\$ '
 
 # 履歴検索を有効化
-# bashの場合
-#bindkey '^P' history-beginning-search-backward # 先頭マッチのヒストリサーチ
-#bindkey '^N' history-beginning-search-forward # 先頭マッチのヒストリサーチ
-
-# zshの場合
 ## zkbd と互換性のあるハッシュテーブルを作成し、他のキーをこのハッシュテーブルに追加する (man 5 terminfo を参照)
 typeset -g -A key
 key[Up]="${terminfo[kcuu1]}"
 key[Down]="${terminfo[kcud1]}"
-
 ## 最後に、zle がアクティブのときにターミナルがアプリケーションモードになるようにする。そのときにだけ、$terminfo の値が有効になる。
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	autoload -Uz add-zle-hook-widget
@@ -359,7 +357,6 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
-
 ## 上下キーの利用が可能に
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search

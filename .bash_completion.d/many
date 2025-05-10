@@ -2,6 +2,7 @@
 
 source /usr/share/bash-completion/completions/git
 __git_complete gco _git_checkout
+__git_complete gpo __git_complete_refs
 # _git_checkout_wrapper() {
 #     # __git_find_repo_path
 #     __git_complete_refs
@@ -18,4 +19,4 @@ _check_command_complete() {
     # 実行可能なコマンドを補完
     COMPREPLY=($(compgen -c -- "${COMP_WORDS[1]}"))
 }
-complete -F _check_command_complete check-command
+complete -F _check_command_complete h-command

@@ -25,6 +25,12 @@ fi
 
 alias sudo="sudo "
 
+# 履歴検索を有効化
+#bindkey '^P' history-beginning-search-backward # 先頭マッチのヒストリサーチ
+#bindkey '^N' history-beginning-search-forward # 先頭マッチのヒストリサーチ
+
+PS1="\$(__git_ps1 ' (%s)')${PS1}"
+
 # alias
 activate() {
 	source .venv/bin/activate
@@ -473,7 +479,7 @@ alias pg-*="open 'https://leetcode.com/playground/new/empty'"
 
 alias pl-vim="npm create vite@latest"
 
-ck-command() {
+h-command() {
 	if alias "$1" >/dev/null 2>&1; then
 		# 引数がエイリアス名の場合
 		echo "'$1' is an alias:"
@@ -487,6 +493,6 @@ ck-command() {
 		echo "'$1' is neither an alias nor a function."
 	fi
 }
-ck-alias() {
+h() {
   cat $SHELL_SETTINGS_MAIN $SHELL_SETTINGS_BASE | grep -E "^alias .*="
 }
