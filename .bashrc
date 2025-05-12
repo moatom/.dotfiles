@@ -134,6 +134,8 @@ alias d-ignore='echo ".d.md" >> ~/.gitignore_global'
 # 	open $(git rev-parse --show-toplevel)/TODO*
 # }
 
+alias port="ss -tuln"
+
 
 # Settings
 alias ops-sc="open ~/.sc/"
