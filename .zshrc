@@ -131,7 +131,7 @@ o() {
   local selection
 selection=$(cat <(echo "$HOME/.dotfiles") \
                  <(echo "$DIRSC") \
-                 <(find "~/program" -maxdepth 2 -type d 2>/dev/null) | fzf)
+                 <(find ~/program -maxdepth 2 -type d 2>/dev/null) | fzf)
 
   [ -n "$selection" ] && code "$selection"
 }
@@ -139,7 +139,7 @@ o2() {
   local selection
   selection=$(cat <(echo "$HOME/.dotfiles") \
                  <(echo "$DIRSC") \
-                 <(find "~/program" -maxdepth 2 -type d 2>/dev/null) | fzf)
+                 <(find ~/program -maxdepth 2 -type d 2>/dev/null) | fzf)
 
   [ -n "$selection" ] && idea1 "$selection"
 }
