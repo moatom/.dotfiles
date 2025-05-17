@@ -22,6 +22,7 @@ if [ -d "$HOME/.dotfiles/.bash_completion.d" ]; then
   done
   shopt -u nullglob
 fi
+# opsなども移したいかも。長いテンプレ系かな？
 
 alias sudo="sudo "
 
@@ -117,7 +118,7 @@ alias treem="tree -ah -I 'node_modules|.git|.DS_Store' --dirsfirst"
 alias k6-d="docker run -it -u root -v $(pwd):/home/k6 grafana/k6:latest"
 
 alias d="cat .d.md"
-alias dr="code .d.md"
+alias dr="nvim .d.md"
 alias d-ignore='echo ".d.md" >> ~/.gitignore_global'
 
 # alias cat-me="cat ./README*"
@@ -151,6 +152,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-tex="open ~/.latexmkrc"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
+alias ops-ghostty="nvim .config/ghostty/config"
 
 # alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
 # alias o2="(cat <(echo $HOME/.dotfiles) <(echo $DIRSC) <(find ~/program -maxdepth 2 -type d)) | fzf | xargs idea1"
@@ -240,6 +242,15 @@ ez-podman() {
 
 # clip: only linux (bash)!
 alias pbcopy='xsel --clipboard --input'
+
+det() {
+  cat <<END | pbcopy
+<details>
+  <summary>title</summary>
+  content
+</details>
+END
+}
 
 # util
 alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0kubun.Xremap WMClasses"
