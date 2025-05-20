@@ -16,8 +16,11 @@ activate() {
 
 alias rcp="rsync -avP"
 
+bindkey "\e[24~" fzf-history-widget
+
 alias relogin='exec $SHELL -l'
 alias s='ssh'
+alias mysql='mysql --skip-binary-as-hex'
 # compdef s=ssh
 # compdef _ssh s
 alias n='nvim '
