@@ -17,6 +17,39 @@ activate() {
 alias rcp="rsync -avP"
 
 bindkey "\e[24~" fzf-history-widget
+bindkey "\e[23~" fzf-cd-widget
+
+# オプションでenc/decを切り替えたい
+ans-enc() {
+  echo $1 | xargs -n 1 -I{} ansible-vault encrypt {} --vault-id=$2@.vault_password
+}
+
+ans-dec() {
+  echo $1 | xargs -n 1 -I{} ansible-vault decrypt {} --vault-id=$2@.vault_password
+}
+
+# 微妙、、、任意の位置を許したい。
+ans-v() {
+  e=""
+  d=""
+  while (( "$#" )); do
+    case "$1" in
+        -e) e=1; shift; break;;
+        -d) d=1; shift; break;;
+        *) break;;
+    esac
+  done
+  if [ ! -z "${e}" ]; then
+    ans-enc $1 $2
+  elif [ ! -z "${d}" ]; then
+    ans-dec $1 $2
+  else
+    ans-dec $1 $2
+  fi
+}
+
+alias z-note-regx="find . -type f -exec sed -i -E 's/検索パターン/置換文字列/g' {} +"
+alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
 
 alias relogin='exec $SHELL -l'
 alias s='ssh'
@@ -138,13 +171,21 @@ selection=$(cat <(echo "$HOME/.dotfiles") \
 
   [ -n "$selection" ] && code "$selection"
 }
-o2() {
+o-i() {
   local selection
   selection=$(cat <(echo "$HOME/.dotfiles") \
                  <(echo "$DIRSC") \
                  <(find ~/program -maxdepth 2 -type d 2>/dev/null) | fzf)
 
   [ -n "$selection" ] && idea1 "$selection"
+}
+o-n() {
+  local selection
+  selection=$(cat <(echo "$HOME/.dotfiles") \
+                 <(echo "$DIRSC") \
+                 <(find ~/program -maxdepth 2 -type d 2>/dev/null) | fzf)
+
+  [ -n "$selection" ] && nvim "$selection"
 }
 
 re-shell() {
@@ -420,3 +461,13 @@ source <(fzf --zsh)
 # HISTORY
 HISTSIZE=10000
 SAVEHIST=10000
+
+det() {
+  cat <<END | pbcopy
+<details>
+  <summary>title</summary>
+
+  content
+</details>
+END
+}

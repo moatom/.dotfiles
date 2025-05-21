@@ -39,6 +39,8 @@ activate() {
 
 alias rcp="rsync -avP"
 
+alias curl-dl="curl -LsSf $1 | sh"
+
 alias relogin='exec $SHELL -l'
 alias s='ssh'
 alias n='nvim '
@@ -247,6 +249,7 @@ det() {
   cat <<END | pbcopy
 <details>
   <summary>title</summary>
+
   content
 </details>
 END
