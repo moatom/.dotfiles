@@ -22,10 +22,15 @@ if [ -d "$HOME/.dotfiles/.bash_completion.d" ]; then
   done
   shopt -u nullglob
 fi
+# if [ -z "$TMUX" ]; then
+#   tmux attach-session -t default || tmux new-session -s default
+# fi
 # opsなども移したいかも。長いテンプレ系かな？
 
 alias sudo="sudo "
 
+bind '"^[[24~": fzf-history-widget' # F12
+# bind '"\e[24~": fzf-history-widget' # F12
 # 履歴検索を有効化
 #bindkey '^P' history-beginning-search-backward # 先頭マッチのヒストリサーチ
 #bindkey '^N' history-beginning-search-forward # 先頭マッチのヒストリサーチ
@@ -37,19 +42,30 @@ activate() {
 	source .venv/bin/activate
 }
 
-alias rcp="rsync -avP"
+y-det() {
+  cat <<END | pbcopy
+<details>
+  <summary>title</summary>
 
-alias curl-dl="curl -LsSf $1 | sh"
+  content
+</details>
+END
+}
 
-alias relogin='exec $SHELL -l'
 alias s='ssh'
 alias n='nvim '
 alias r='redis-cli'
 alias e='emacs '
 alias c='cd'
+
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
+alias rcp="rsync -avP"
+alias curl-dl="curl -LsSf $1 | sh"
+alias mysql='mysql --skip-binary-as-hex'
+
+alias relogin='exec $SHELL -l'
 alias bg='gsettings set org.gnome.desktop.background picture-uri'
 alias bgd='gsettings set org.gnome.desktop.background picture-uri-dark'
 # gsettings set org.gnome.desktop.background picture-uri "file:///home/username/Pictures/wallpaper.jpg"
@@ -154,6 +170,7 @@ alias ops-vscode-key="gnome-text-editor ~/.config/Code/User/keybindings.json"
 # alias ops-tex="open ~/.latexmkrc"
 # alias ops-emacs="open ~/.emacs.d/init.el"
 # alias ops-nvim="open ~/.config/nvim/init.vim"
+alias ops-nvim="open ~/.config/nvim/init.lua"
 alias ops-ghostty="nvim .config/ghostty/config"
 
 # alias o="(cat <(echo $HOME/.dotfiles) <(echo /etc/systemd/system/) <(echo $HOME/Templates) <(echo $HOME/.sc) <(echo $HOME/.bashrc) <(find $DIRG -maxdepth 1 -type d)) | fzf | xargs code"
@@ -244,16 +261,6 @@ ez-podman() {
 
 # clip: only linux (bash)!
 alias pbcopy='xsel --clipboard --input'
-
-det() {
-  cat <<END | pbcopy
-<details>
-  <summary>title</summary>
-
-  content
-</details>
-END
-}
 
 # util
 alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0kubun.Xremap WMClasses"

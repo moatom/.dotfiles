@@ -9,12 +9,15 @@ export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 export PATH="$DIRSC:$PATH"
 fpath=(~/.zsh/completion $fpath)
 
+if [ -z "$TMUX" ]; then
+  tmux attach-session -t default || tmux new-session -s default
+fi
+
 # Aliases
 activate() {
 	source .venv/bin/activate
 }
 
-alias rcp="rsync -avP"
 
 bindkey "\e[24~" fzf-history-widget
 bindkey "\e[23~" fzf-cd-widget
@@ -50,17 +53,34 @@ ans-v() {
 
 alias z-note-regx="find . -type f -exec sed -i -E 's/検索パターン/置換文字列/g' {} +"
 alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
+y-det() {
+  cat <<END | pbcopy
+<details>
+  <summary>title</summary>
 
-alias relogin='exec $SHELL -l'
+  content
+</details>
+END
+}
+y-jvm-remote() {
+-agentlib=jdwp:transport=dt_socket,server=y,address=*:8000,suspend=n
+ssh -L 5050:127.0.0.1:8000 -N foo
+END
+
+
 alias s='ssh'
-alias mysql='mysql --skip-binary-as-hex'
 # compdef s=ssh
 # compdef _ssh s
 alias n='nvim '
 alias e='emacs '
+
 alias ls='ls --color=auto'
 alias ll='ls --color=auto -l'
 alias la='ls --color=auto -la'
+alias mysql='mysql --skip-binary-as-hex'
+alias rcp="rsync -avP"
+
+alias relogin='exec $SHELL -l'
 
 alias gc='cat ~/.gitconfig'
 alias gi='cat ~/.gitignore_global'
@@ -462,12 +482,3 @@ source <(fzf --zsh)
 HISTSIZE=10000
 SAVEHIST=10000
 
-det() {
-  cat <<END | pbcopy
-<details>
-  <summary>title</summary>
-
-  content
-</details>
-END
-}
