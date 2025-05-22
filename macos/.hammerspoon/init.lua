@@ -6,6 +6,24 @@ package.path = package.path .. ";" .. home .. "/.dotfiles/macos/.hammerspoon/?.l
 -- require("setup")
 -- require("apps")
 
+-- for debug
+hs.hotkey.bind({"cmd", "alt"}, "A", function()
+  local app = hs.application.frontmostApplication()
+  hs.alert.show("Current app: " .. app:name())
+
+  -- for _, app in ipairs(hs.application.runningApplications()) do
+  --   print(app:name())
+  -- end 
+end)
+-- for save settings
+hs.hotkey.bind({"cmd", "alt"}, "R", function()
+  local ok, err = pcall(hs.reload)
+  if not ok then
+    hs.alert.show("Reload failed: " .. err)
+  else
+    hs.alert.show("Hammerspoon reloaded")
+  end
+end)
 
 -- -- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "D", function()
 -- hs.hotkey.bind({}, "F1", function()
@@ -44,10 +62,7 @@ package.path = package.path .. ";" .. home .. "/.dotfiles/macos/.hammerspoon/?.l
 --   end
 -- end)
 
-hs.hotkey.bind({}, "F1", function()
-  -- アプリ名（英語表記）
-  local apps = {"Discord", "Slack"}
-
+function app_invoke(apps)
   -- 起動 or フォーカスする関数
   local function launchOrFocus(appName)
     local app = hs.application.get(appName)
@@ -96,4 +111,9 @@ hs.hotkey.bind({}, "F1", function()
       end
     end
   end)
-end)
+end
+
+local apps_f1 = {"Discord", "Slack"}   -- アプリ名（英語表記）
+local apps_f2 = {"Gmail", "Google カレンダー"}   -- アプリ名（英語表記）
+hs.hotkey.bind({}, "F1", function() app_invoke(apps_f1) end)
+hs.hotkey.bind({}, "F2", function() app_invoke(apps_f2) end)
