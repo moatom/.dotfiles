@@ -9,7 +9,7 @@ export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 export PATH="$DIRSC:$PATH"
 fpath=(~/.zsh/completion $fpath)
 
-if [ -z "$TMUX" ]; then
+if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ]; then
   tmux attach-session -t default || tmux new-session -s default
 fi
 
@@ -53,6 +53,9 @@ ans-v() {
 
 alias z-note-regx="find . -type f -exec sed -i -E 's/検索パターン/置換文字列/g' {} +"
 alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
+z-ip-safe() {
+  sed -E "s/$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '\"' | sed 's/\./\\./g')/***\.***\.***\.***/g"
+}
 y-det() {
   cat <<END | pbcopy
 <details>
@@ -63,9 +66,12 @@ y-det() {
 END
 }
 y-jvm-remote() {
+  cat <<END | pbcopy
 -agentlib=jdwp:transport=dt_socket,server=y,address=*:8000,suspend=n
 ssh -L 5050:127.0.0.1:8000 -N foo
+</details>
 END
+}
 
 
 alias s='ssh'
