@@ -56,6 +56,7 @@ alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
 z-ip-safe() {
   sed -E "s/$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '\"' | sed 's/\./\\./g')/***\.***\.***\.***/g"
 }
+
 y-det() {
   cat <<END | pbcopy
 <details>
@@ -65,12 +66,17 @@ y-det() {
 </details>
 END
 }
+
 y-jvm-remote() {
   cat <<END | pbcopy
 -agentlib=jdwp:transport=dt_socket,server=y,address=*:8000,suspend=n
 ssh -L 5050:127.0.0.1:8000 -N foo
 </details>
 END
+}
+
+y-curl-json() {
+  echo -n 'curl -X POST -H "Content-Type: application/json"' | pbcopy
 }
 
 
@@ -115,7 +121,7 @@ alias gb='git branch'
 alias gbr='git branch -r'
 alias gd='git diff'
 alias grb='git rebase'
-alias grhm='git fetch && git reset --hard upstram/master'
+alias grhm='git fetch && git reset --hard upstream/master'
 alias grss='git restore --source=HEAD^ --staged .'
 alias gr='git remote'
 alias grs='git remote show'
