@@ -41,11 +41,24 @@ PS1="\$(__git_ps1 ' (%s)')${PS1}"
 activate() {
 	source .venv/bin/activate
 }
+# clip: only linux (bash)!
+alias pbcopy='xsel --clipboard --input'
 
 y-det() {
   cat <<END | pbcopy
 <details>
   <summary>title</summary>
+
+  content
+</details>
+END
+}
+y-det-date() {
+  # local today=$(date +%F)
+  local today=$(date "+%B %d, %Y")
+  cat <<END | pbcopy
+<details>
+  <summary>Report: Current Situation ($today)</summary>
 
   content
 </details>
@@ -262,9 +275,6 @@ ez-podman() {
 	podman build -t $1 .
 	podman run --rm $1
 }
-
-# clip: only linux (bash)!
-alias pbcopy='xsel --clipboard --input'
 
 # util
 alias win_title="busctl --user call org.gnome.Shell /com/k0kubun/Xremap com.k0kubun.Xremap WMClasses"

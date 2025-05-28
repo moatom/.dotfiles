@@ -3,6 +3,8 @@
 source /usr/share/bash-completion/completions/git
 __git_complete gco _git_checkout
 __git_complete gpo __git_complete_refs
+__git_complete gpl _git_pull
+__git_complete gplo __git_complete_refs
 # _git_checkout_wrapper() {
 #     # __git_find_repo_path
 #     __git_complete_refs
