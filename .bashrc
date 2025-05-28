@@ -52,6 +52,10 @@ y-det() {
 END
 }
 
+y-color-m() {
+  echo -n '\e[35m' | pbcopy
+}
+
 alias s='ssh'
 alias n='nvim '
 alias r='redis-cli'

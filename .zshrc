@@ -79,6 +79,10 @@ y-curl-json() {
   echo -n 'curl -X POST -H "Content-Type: application/json"' | pbcopy
 }
 
+y-color-m() {
+  echo -n '\e[35m' | pbcopy
+}
+
 
 alias s='ssh'
 # compdef s=ssh
