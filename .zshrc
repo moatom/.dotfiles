@@ -95,6 +95,16 @@ y-curl2() {
   curl -b "AAA=$AAA" -i -X POST 'http://localhost:8000/gogo' -H 'Content-Type: application/json' -d '{"aaa": 1, "bbb": [1,2]}'
 }
 
+y-curl-js() {
+# https://x.com/dimyasvariant/status/1826646027950027037/photo/1
+  cat << EOF | echo
+const url = new URL('http://localhost:8000/gogo')
+url.searchParams.set('date', '...')
+
+const response = await fetch(url, { cache: 'force-cache' })
+EOF
+}
+
 alias s='ssh'
 # compdef s=ssh
 # compdef _ssh s
