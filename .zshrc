@@ -83,6 +83,17 @@ y-color-m() {
   echo -n '\e[35m' | pbcopy
 }
 
+y-curl() {
+  cat << EOF | xargs -I x curl -i -X POST 'http://localhost:8080/gogo' -H 'Content-Type: application/json' -d x
+{
+"foo": 1,
+"bar": "aaaa"}
+EOF
+}
+
+y-curl2() {
+  curl -b "AAA=$AAA" -i -X POST 'http://localhost:8000/gogo' -H 'Content-Type: application/json' -d '{"aaa": 1, "bbb": [1,2]}'
+}
 
 alias s='ssh'
 # compdef s=ssh
