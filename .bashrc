@@ -53,6 +53,7 @@ y-det() {
 </details>
 END
 }
+
 y-det-date() {
   # local today=$(date +%F)
   local today=$(date "+%B %d, %Y")
@@ -67,6 +68,10 @@ END
 
 y-color-m() {
   echo -n '\e[35m' | pbcopy
+}
+
+y-emoji-a() {
+  echo '🚨, ⚠️, 🔥, ❗' | pbcopy
 }
 
 alias s='ssh'
