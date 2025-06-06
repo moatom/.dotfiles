@@ -53,8 +53,43 @@ ans-v() {
 
 alias z-note-regx="find . -type f -exec sed -i -E 's/検索パターン/置換文字列/g' {} +"
 alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
+
 z-ip-safe() {
   sed -E "s/$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '\"' | sed 's/\./\\./g')/***\.***\.***\.***/g"
+}
+
+z-curl() {
+  cat << EOF | xargs -I x curl -i -X POST 'http://localhost:8080/gogo' -H 'Content-Type: application/json' -d x
+{
+"foo": 1,
+"bar": "aaaa"}
+EOF
+}
+
+z-curl2() {
+  curl -b "AAA=$AAA" -i -X POST 'http://localhost:8000/gogo' -H 'Content-Type: application/json' -d '{"aaa": 1, "bbb": [1,2]}'
+}
+
+z-curl-js() {
+# https://x.com/dimyasvariant/status/1826646027950027037/photo/1
+  cat << EOF | echo
+const url = new URL('http://localhost:8000/gogo')
+url.searchParams.set('date', '...')
+
+const response = await fetch(url, { cache: 'force-cache' })
+EOF
+}
+
+z-curl() {
+  i=0; while [ $i -lt 10 ]; do
+    out=$(curl --http2-prior-knowledge -s -D - http://localhost:8080/api)
+    status=$(echo "$out" | head -n1 | awk '{print $2}')
+    echo "$out" | grep -q UP && test "$status" = "200" && { echo -n $status; exit 0; }
+    sleep 10
+    i=$((i+1))
+  done
+  echo -n $status
+  exit 1
 }
 
 y-det() {
@@ -81,28 +116,6 @@ y-curl-json() {
 
 y-color-m() {
   echo -n '\e[35m' | pbcopy
-}
-
-y-curl() {
-  cat << EOF | xargs -I x curl -i -X POST 'http://localhost:8080/gogo' -H 'Content-Type: application/json' -d x
-{
-"foo": 1,
-"bar": "aaaa"}
-EOF
-}
-
-y-curl2() {
-  curl -b "AAA=$AAA" -i -X POST 'http://localhost:8000/gogo' -H 'Content-Type: application/json' -d '{"aaa": 1, "bbb": [1,2]}'
-}
-
-y-curl-js() {
-# https://x.com/dimyasvariant/status/1826646027950027037/photo/1
-  cat << EOF | echo
-const url = new URL('http://localhost:8000/gogo')
-url.searchParams.set('date', '...')
-
-const response = await fetch(url, { cache: 'force-cache' })
-EOF
 }
 
 alias s='ssh'
