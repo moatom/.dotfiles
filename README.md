@@ -1,5 +1,10 @@
 # dotfiles
 
+```common
+bind '"\e[A": history-search-backward'  # 上キーで履歴検索
+bind '"\e[B": history-search-forward' # 下キーで履歴検索
+```
+
 ## How to Use and Develop
 
 ```bash
