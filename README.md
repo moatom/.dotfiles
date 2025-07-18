@@ -16,6 +16,16 @@ git config --global alias.foo status # `git foo`→`git status`
 git config --global alias.today '!date'
 
 git config --global alias.co checkout
+
+# ssh user@host bash --noprofile
+session="work-kobayashi"
+if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ]; then
+  if [ "$TERM_PROGRAM" = "iTerm.app" ]; then
+    exec tmux -u -CC new-session -A -s "$session"
+  else
+    exec tmux -u new-session -A -s "$session"
+  fi
+fi
 ```
 
 cat ~/.hammerspoon/init.lua

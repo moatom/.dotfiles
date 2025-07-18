@@ -74,6 +74,10 @@ y-emoji-a() {
   echo '🚨, ⚠️, 🔥, ❗' | pbcopy
 }
 
+y-dcdu() {
+  echo 'docker compose down -v && docker compose up -d' | pbcopy
+}
+
 alias s='ssh'
 alias n='nvim '
 alias r='redis-cli'

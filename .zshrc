@@ -54,6 +54,7 @@ ans-v() {
 alias z-note-regx="find . -type f -exec sed -i -E 's/検索パターン/置換文字列/g' {} +"
 alias z-note-git-diff="git diff -u main feature/login -- src/user/login.rs"
 
+# aliasではないので、zの意味がない
 z-ip-safe() {
   sed -E "s/$(dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | tr -d '\"' | sed 's/\./\\./g')/***\.***\.***\.***/g"
 }
@@ -116,6 +117,10 @@ y-curl-json() {
 
 y-color-m() {
   echo -n '\e[35m' | pbcopy
+}
+
+y-dcdu() {
+  echo 'docker compose down -v && docker compose up -d' | pbcopy
 }
 
 alias s='ssh'
