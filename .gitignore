@@ -33,7 +33,7 @@ __pycache__/
 
 # Ignore IDE and editor files
 .idea/
-.vscode/
+# .vscode/
 *.iml
 
 #
