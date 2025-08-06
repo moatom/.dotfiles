@@ -4,14 +4,14 @@
     {
       "label": "Vault Encrypt",
       "type": "shell",
-      "command": "ansible-vault encrypt --vault-password-file ~/.vault_pass.txt ${file}"
+      "command": "ansible-vault encrypt --vault-password-file ${workspaceFolder}/.vault_pass.txt ${file}",
       "problemMatcher": [],
       "group": "build"
     },
     {
       "label": "Vault Decrypt",
       "type": "shell",
-      "command": "ansible-vault decrypt --vault-password-file ~/.vault_pass.txt ${file}",
+      "command": "ansible-vault decrypt --vault-password-file ${workspaceFolder}/.vault_pass.txt ${file}",
       "problemMatcher": [],
       "group": "build"
     }

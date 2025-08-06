@@ -4,9 +4,10 @@ SHELL_SETTINGS_MAIN="$DOTFILES/$SHELL_SETTINGS"
 SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
 export DIRG="$HOME/program/ghe"
 export DIRSC="$HOME/.scripts"
+export DIRSC2="$DOTFILES/scripts"
 export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 
-export PATH="$DIRSC:$PATH"
+export PATH="$DIRSC2:$DIRSC:$PATH"
 fpath=(~/.zsh/completion $fpath)
 
 if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ]; then

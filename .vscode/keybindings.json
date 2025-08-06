@@ -1,11 +1,11 @@
 [
   {
-    "key": "ctrl+alt+e",
+    "key": "cmd+alt+e",
     "command": "workbench.action.tasks.runTask",
     "args": "Vault Encrypt"
   },
   {
-    "key": "ctrl+alt+d",
+    "key": "shift+cmd+alt+e",
     "command": "workbench.action.tasks.runTask",
     "args": "Vault Decrypt"
   }

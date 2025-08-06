@@ -4,13 +4,14 @@ SHELL_SETTINGS_MAIN="$DOTFILES/$SHELL_SETTINGS"
 SHELL_SETTINGS_BASE="$HOME/$SHELL_SETTINGS"
 export DIRG="$HOME/github"
 export DIRSC="$HOME/.sc"
+export DIRSC2="$DOTFILES/scripts"
 export PYTHONSTARTUP="$DOTFILES/.pythonrc.py"
 
 # Editor used by CLI
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
 
-export PATH="$DIRSC:$PATH"
+export PATH="$DIRSC2:$DIRSC:$PATH"
 export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
 #export PATH="~/vnev/system/bin:$PATH"
 export PATH="/home/moatom/.mozbuild/git-cinnabar:$PATH"
