@@ -28,6 +28,7 @@ if command -v tmux >/dev/null 2>&1 && [ -z "$TMUX" ]; then
 fi
 ```
 
+```
 cat ~/.hammerspoon/init.lua
 cat ~/.config/zellij/config.kdl
 cat ~/.config/alacritty/alacritty.toml
@@ -39,6 +40,7 @@ cat ~/.config/fusuma/config.yml
 cat ~/.config/mozc/config1.db
 cat ~/.config/mozc/user_dictionary.db
 vimrc
+```
 
 ```sh
 #1
