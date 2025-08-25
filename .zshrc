@@ -182,6 +182,10 @@ alias gs="git stash"
 alias gsp="git stash push -u -m'Save: automatic save'"
 alias gspp='git stash pop stash@{0}'
 
+alias gsuba='git submodule add -b'
+alias gsubi='git submodule update --init --recursive'
+alias gsubu='git submodule update --remote --merge'
+
 alias dcu-m="docker-compose -f docker-compose-only-middleware.yml up -d"
 alias dcu-l="docker-compose -f docker-compose-localtest.yml up -d"
 alias dcd-m="docker-compose -f docker-compose-only-middleware.yml down -v"
